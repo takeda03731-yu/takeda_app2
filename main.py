@@ -5,7 +5,6 @@
 ############################################################
 # ライブラリの読み込み
 ############################################################
-from dotenv import load_dotenv
 import logging
 import streamlit as st
 import utils
@@ -31,8 +30,6 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded"
 )
-
-load_dotenv()
 
 logger = logging.getLogger(ct.LOGGER_NAME)
 

@@ -9,7 +9,6 @@ import os
 import logging
 from logging.handlers import TimedRotatingFileHandler
 from uuid import uuid4
-from dotenv import load_dotenv
 import streamlit as st
 import tiktoken
 from langchain_openai import ChatOpenAI
@@ -19,7 +18,6 @@ import constants as ct
 ############################################################
 # 設定関連
 ############################################################
-load_dotenv()
 
 
 ############################################################
@@ -28,8 +26,8 @@ load_dotenv()
 
 def _ensure_encoder():
     if "enc" not in st.session_state:
-        # 使うモデル名（環境変数などから）
-        model = os.getenv("OPENAI_MODEL", ct.MODEL)
+        # 使うモデル名（Streamlit secretsから、なければデフォルト値を使用）
+        model = st.secrets.get("OPENAI_MODEL", ct.MODEL)
         try:
             # モデルに合うエンコーディングを自動で選ぶ
             st.session_state["enc"] = tiktoken.encoding_for_model(model)

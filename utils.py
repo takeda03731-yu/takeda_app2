@@ -7,7 +7,6 @@
 # ライブラリの読み込み
 ############################################################
 import os
-from dotenv import load_dotenv
 import streamlit as st
 import logging
 import sys
@@ -33,7 +32,6 @@ import constants as ct
 ############################################################
 # 設定関連
 ############################################################
-load_dotenv()
 
 ############################################################
 # 関数定義
@@ -280,12 +278,12 @@ def send_inquiry_to_gmail(chat_message: str) -> str:
         送信結果メッセージ
     """
     try:
-        # 環境変数から設定を取得
-        gmail_user = os.getenv("GMAIL_USER")
-        gmail_password = os.getenv("GMAIL_APP_PASSWORD")  # アプリパスワードを使用
-        to_email = os.getenv("INQUIRY_TO_EMAIL")
+        # Streamlit secrets から設定を取得
+        gmail_user = st.secrets.get("GMAIL_USER")
+        gmail_password = st.secrets.get("GMAIL_APP_PASSWORD")  # アプリパスワードを使用
+        to_email = st.secrets.get("INQUIRY_TO_EMAIL")
         
-        # 必要な環境変数がない場合はエラー
+        # 必要な設定がない場合はエラー
         if not all([gmail_user, gmail_password, to_email]):
             return ct.get_text('GMAIL_SETTINGS_ERROR_MESSAGE')
         
